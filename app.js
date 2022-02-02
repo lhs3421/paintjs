@@ -3,6 +3,9 @@
 const canvas = document.querySelector("#jsCanvas");
 const ctx = canvas.getContext("2d");
 
+canvas.width = canvas.offsetWidth;
+canvas.height = canvas.offsetHeight;
+
 ctx.strokeStyle = "black";
 ctx.lineWidth = 2.5;
 
@@ -23,6 +26,7 @@ function onMouseMove(event) {
   const x = event.offsetX;
   const y = event.offsetY;
   if (!painting) {
+    // painting이 false일때
     ctx.beginPath();
     ctx.moveTo(x, y);
   } else {
