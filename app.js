@@ -5,10 +5,15 @@ const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.querySelector("#jsMode");
+const saveBtn = document.querySelector("#jsSave");
 
 const INITIAL_COLOR = "black";
+
 canvas.width = canvas.offsetWidth;
 canvas.height = canvas.offsetHeight;
+
+ctx.fillStyle = "white";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
@@ -25,6 +30,7 @@ if (canvas) {
   canvas.addEventListener("mouseup", stopPainting);
   canvas.addEventListener("mouseleave", stopPainting);
   canvas.addEventListener("click", handleCanvasClick);
+  canvas.addEventListener("contextmenu", handleCM);
 }
 
 // 함수 선언
@@ -57,6 +63,9 @@ function handleCanvasClick() {
   }
 }
 
+function handleCM(event) {
+  event.preventDefault();
+}
 function handleColorClick(event) {
   const color = event.target.style.backgroundColor;
   ctx.strokeStyle = color;
@@ -76,6 +85,14 @@ function handleModeClick(event) {
     mode.innerText = "Paint";
   }
 }
+
+function handleSaveClick() {
+  const image = canvas.toDataURL("image/jpeg");
+  const link = document.createElement("a");
+  link.href = image;
+  link.download = "paint";
+  link.click();
+}
 Array.from(colors).forEach((color) =>
   color.addEventListener("click", handleColorClick)
 );
@@ -86,4 +103,8 @@ if (range) {
 
 if (mode) {
   mode.addEventListener("click", handleModeClick);
+}
+
+if (saveBtn) {
+  saveBtn.addEventListener("click", handleSaveClick);
 }
